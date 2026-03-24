@@ -51,6 +51,49 @@ export const siteConfig = {
       ],
     },
   ],
+  workTopics: [
+    {
+      name: "Cybersecurity",
+      projects: [
+        {
+          name: "Example Sec Project",
+          description: "A sample cybersecurity project demonstrating network scanning and vulnerability assessment.",
+          link: "https://github.com/PipeVerri",
+          skills: ["Python", "Nmap"],
+        },
+      ],
+      courses: [
+        {
+          name: "Introduction to Ethical Hacking",
+          description: "Comprehensive course covering penetration testing fundamentals, tools, and methodologies.",
+          certificateLink: "https://example.com/cert",
+        },
+        {
+          name: "Network Security Fundamentals",
+          description: "Hands-on training in network protocols, firewalls, IDS/IPS, and traffic analysis.",
+          certificateLink: "",
+        },
+      ],
+    },
+    {
+      name: "Competitive Programming",
+      projects: [
+        {
+          name: "OIA Solutions",
+          description: "Collection of solutions and editorial notes from Argentine Olympiad in Informatics problems.",
+          link: "https://github.com/PipeVerri",
+          skills: ["C++"],
+        },
+      ],
+      courses: [
+        {
+          name: "Competitive Programming Algorithms",
+          description: "In-depth study of graph algorithms, dynamic programming, and data structures for competitive programming.",
+          certificateLink: "",
+        },
+      ],
+    },
+  ],
   education: [
     {
       school: "ETec(Escuela técnica de la universidad de Mendoza)",

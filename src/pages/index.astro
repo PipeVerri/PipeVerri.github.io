@@ -4,6 +4,7 @@ import Hero from "../components/Hero.astro";
 import About from "../components/About.astro";
 import Projects from "../components/Projects.astro";
 import Experience from "../components/Experience.astro";
+import MyWork from "../components/MyWork.astro";
 import Education from "../components/Education.astro";
 import Footer from "../components/Footer.astro";
 import { siteConfig } from "../config";
@@ -32,8 +33,106 @@ import "../styles/global.css";
       <About />
       <Projects />
       <Experience />
+      <MyWork />
       <Education />
     </section>
     <Footer />
   </body>
 </html>
+
+<script>
+  // Full-page scroll controller
+  // Each stop either scrolls to a new slide OR switches a tab in place (noScroll: true).
+  const stops = [];
+  let currentStop = 0;
+  let isAnimating = false;
+
+  function addScrollStop(el) {
+    stops.push({ el, noScroll: false, activate: () => el.scrollIntoView({ behavior: 'smooth' }) });
+  }
+
+  function addTabStops(sectionEl, tabSelector) {
+    const tabs = Array.from(sectionEl.querySelectorAll(tabSelector));
+    if (tabs.length === 0) { addScrollStop(sectionEl); return; }
+    tabs.forEach((tab, i) => {
+      const isFirst = i === 0;
+      stops.push({
+        el: sectionEl,
+        noScroll: !isFirst,
+        activate: () => { if (isFirst) sectionEl.scrollIntoView({ behavior: 'smooth' }); tab.click(); },
+      });
+    });
+  }
+
+  function buildStops() {
+    const hero = document.getElementById('hero');
+    if (hero) addScrollStop(hero);
+
+    const about = document.getElementById('about');
+    if (about) addScrollStop(about);
+
+    const projects = document.getElementById('projects');
+    if (projects) addTabStops(projects, '.projects-tab');
+
+    let i = 0;
+    while (document.getElementById(i === 0 ? 'experience' : `experience-${i}`)) {
+      const el = document.getElementById(i === 0 ? 'experience' : `experience-${i}`);
+      addScrollStop(el);
+      i++;
+    }
+
+    const mywork = document.getElementById('my-work');
+    if (mywork) addTabStops(mywork, '.work-tab');
+
+    i = 0;
+    while (document.getElementById(i === 0 ? 'education' : `education-${i}`)) {
+      const el = document.getElementById(i === 0 ? 'education' : `education-${i}`);
+      addScrollStop(el);
+      i++;
+    }
+
+    const footer = document.querySelector('footer');
+    if (footer) addScrollStop(footer);
+  }
+
+  function navigateTo(index) {
+    const clamped = Math.max(0, Math.min(index, stops.length - 1));
+    if (isAnimating || clamped === currentStop) return;
+    isAnimating = true;
+    currentStop = clamped;
+    stops[currentStop].activate();
+    setTimeout(() => { isAnimating = false; }, stops[currentStop].noScroll ? 350 : 900);
+  }
+
+  buildStops();
+
+  // Wheel — intercept and drive navigation
+  window.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    if (!isAnimating) navigateTo(currentStop + (e.deltaY > 0 ? 1 : -1));
+  }, { passive: false });
+
+  // Touch swipe
+  let touchStartY = 0;
+  window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
+  window.addEventListener('touchend', (e) => {
+    if (isAnimating) return;
+    const diff = touchStartY - e.changedTouches[0].clientY;
+    if (Math.abs(diff) < 50) return;
+    navigateTo(currentStop + (diff > 0 ? 1 : -1));
+  }, { passive: true });
+
+  // Keyboard arrows
+  window.addEventListener('keydown', (e) => {
+    if (['ArrowDown', 'PageDown'].includes(e.key)) { e.preventDefault(); navigateTo(currentStop + 1); }
+    else if (['ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); navigateTo(currentStop - 1); }
+  });
+
+  // Sync stop index after hash-link navigation
+  window.addEventListener('hashchange', () => {
+    const el = document.getElementById(window.location.hash.slice(1));
+    if (!el) return;
+    const idx = stops.findIndex(s => s.el === el && !s.noScroll);
+    if (idx >= 0) currentStop = idx;
+  });
+</script>

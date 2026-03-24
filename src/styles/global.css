@@ -3,3 +3,10 @@
 body {
   font-family: 'IBM Plex Mono', monospace;
 }
+
+.slide {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  position: relative;
+}
