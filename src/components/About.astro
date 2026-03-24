@@ -1,33 +1,69 @@
 ---
 import { siteConfig } from "../config";
 const accent = siteConfig.accentColor;
+const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 ---
 
 <div id="about" class="slide flex items-center px-8 sm:px-12 md:px-16 lg:px-24 py-16 bg-white">
-  <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+  <div class="w-full overflow-y-auto space-y-12" style="max-height: 72vh; max-height: 72dvh;">
 
-    <div class="lg:col-span-4">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900">
-        About Me
-      </h2>
-      <div class="w-[75px] h-[5px] mt-2 rounded-full" style={`background-color: ${accent}`} />
-    </div>
-
-    <div
-      class="lg:col-span-8 overflow-y-auto space-y-8"
-      style="height: 72vh; height: 72dvh;"
-    >
-      <p class="text-lg sm:text-xl md:text-2xl leading-relaxed text-gray-600">
-        {siteConfig.aboutMe}
-      </p>
-      <div class="flex flex-wrap gap-3">
-        {siteConfig.skills.map((skill) => (
-          <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium hover:bg-gray-200 transition-colors duration-200">
-            {skill}
-          </span>
-        ))}
+    {/* About Me */}
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+      <div class="lg:col-span-4">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900">
+          About Me
+        </h2>
+        <div class="w-[75px] h-[5px] mt-2 rounded-full" style={`background-color: ${accent}`} />
+      </div>
+      <div class="lg:col-span-8 space-y-4">
+        <p class="text-lg sm:text-xl md:text-2xl leading-relaxed text-gray-600">
+          {siteConfig.aboutMe}
+        </p>
+        <div class="flex flex-wrap gap-2">
+          {siteConfig.skills.map((skill) => (
+            <span class="px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors duration-200">
+              {skill}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
+
+    {/* Education */}
+    {hasEducation && (
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+        <div class="lg:col-span-4">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900">
+            Education
+          </h2>
+          <div class="w-[75px] h-[5px] mt-2 rounded-full" style={`background-color: ${accent}`} />
+        </div>
+        <div class="lg:col-span-8 space-y-4 pr-1">
+          {siteConfig.education.map((edu, i) => (
+            <div class="bg-gray-50 rounded-xl border border-gray-200 p-4 sm:p-5">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3">
+                <div>
+                  <span class="text-xs font-mono" style={{ color: accent }}>0{i + 1}</span>
+                  <h4 class="text-base sm:text-lg font-bold text-gray-900 mt-0.5">{edu.degree}</h4>
+                  <p class="text-sm font-medium mt-0.5" style={{ color: accent }}>{edu.school}</p>
+                </div>
+                <span class="text-xs text-gray-500 font-mono mt-1 sm:mt-0 shrink-0">{edu.dateRange}</span>
+              </div>
+              {edu.achievements.length > 0 && (
+                <ul class="space-y-1.5">
+                  {edu.achievements.map((achievement) => (
+                    <li class="flex items-start">
+                      <span class="inline-block w-1.5 h-1.5 rounded-full mt-1.5 mr-2.5 flex-shrink-0" style={{ backgroundColor: accent }} />
+                      <span class="text-sm text-gray-600 leading-relaxed">{achievement}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
 
   </div>
 </div>

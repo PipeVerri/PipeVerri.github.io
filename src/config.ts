@@ -61,6 +61,9 @@ export const siteConfig = {
           link: "https://github.com/PipeVerri",
           skills: ["Python", "Nmap"],
         },
+        {
+
+        }
       ],
       courses: [
         {
@@ -76,23 +79,8 @@ export const siteConfig = {
       ],
     },
     {
-      name: "Competitive Programming",
-      projects: [
-        {
-          name: "OIA Solutions",
-          description: "Collection of solutions and editorial notes from Argentine Olympiad in Informatics problems.",
-          link: "https://github.com/PipeVerri",
-          skills: ["C++"],
-        },
-      ],
-      courses: [
-        {
-          name: "Competitive Programming Algorithms",
-          description: "In-depth study of graph algorithms, dynamic programming, and data structures for competitive programming.",
-          certificateLink: "",
-        },
-      ],
-    },
+
+    }
   ],
   education: [
     {
