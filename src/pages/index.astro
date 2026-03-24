@@ -99,9 +99,15 @@ import "../styles/global.css";
     const clamped = Math.max(0, Math.min(index, stops.length - 1));
     if (isAnimating || clamped === currentStop) return;
     isAnimating = true;
+    const prevEl = stops[currentStop]?.el;
     currentStop = clamped;
-    stops[currentStop].activate();
-    setTimeout(() => { isAnimating = false; }, stops[currentStop].noScroll ? 350 : 900);
+    const stop = stops[currentStop];
+    // If this is a noScroll tab stop but we're arriving from a different section, scroll there
+    if (stop.noScroll && prevEl !== stop.el) {
+      stop.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    stop.activate();
+    setTimeout(() => { isAnimating = false; }, stop.noScroll ? 350 : 900);
   }
 
   buildStops();

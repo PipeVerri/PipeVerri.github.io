@@ -5,7 +5,7 @@ const accent = siteConfig.accentColor;
 ---
 
 {hasWorkTopics && (
-  <div id="my-work" class="slide flex items-center px-8 sm:px-12 md:px-16 lg:px-24 py-16 bg-white">
+  <div id="my-work" class="slide flex items-start px-8 sm:px-12 md:px-16 lg:px-24 py-16 bg-white" style="height: auto; min-height: 100vh; overflow: visible;">
     <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
 
       {/* Left: heading + tabs */}
@@ -35,16 +35,12 @@ const accent = siteConfig.accentColor;
       </div>
 
       {/* Right: panels */}
-      <div class="lg:col-span-8 relative" style="height: 72vh; height: 72dvh;">
+      <div class="lg:col-span-8">
         {siteConfig.workTopics.map((topic, topicIndex) => (
           <div
-            class="work-panel absolute inset-0 overflow-y-auto"
+            class="work-panel"
             data-index={topicIndex}
-            style={{
-              opacity: topicIndex === 0 ? "1" : "0",
-              pointerEvents: topicIndex === 0 ? "auto" : "none",
-              transition: "opacity 0.3s ease",
-            }}
+            style={{ display: topicIndex === 0 ? "block" : "none" }}
           >
             <div class="space-y-12 pr-2">
 
@@ -56,42 +52,63 @@ const accent = siteConfig.accentColor;
                   </h3>
                   <div class="space-y-6">
                     {topic.projects.map((project, index) => {
-                      const Component = project.link ? "a" : "div";
-                      const linkProps = project.link
-                        ? { href: project.link, target: "_blank", rel: "noopener noreferrer" }
-                        : {};
+                      const hasModal = !!(project as any).detailedDescription;
+                      const isLink = !hasModal && !!project.link;
+                      const Component = isLink ? "a" : "button";
+                      const extraProps = isLink
+                        ? { href: project.link!, target: "_blank", rel: "noopener noreferrer" }
+                        : hasModal
+                          ? {
+                              "data-open-modal": "",
+                              "data-project": JSON.stringify({
+                                name: project.name,
+                                description: project.description,
+                                detailedDescription: (project as any).detailedDescription,
+                                link: project.link ?? null,
+                                image: (project as any).image ?? null,
+                                skills: project.skills ?? [],
+                              }),
+                            }
+                          : {};
+                      const isInteractive = hasModal || isLink;
                       return (
                         <div class="group relative">
                           <Component
-                            {...linkProps}
-                            class={`block relative p-4 sm:p-6 md:p-8 bg-gray-50 rounded-xl sm:rounded-2xl border border-gray-200 transition-all duration-300 ${
-                              project.link ? "hover:bg-white hover:shadow-xl hover:border-gray-300 hover:-translate-y-1" : ""
+                            {...extraProps}
+                            class={`w-full text-left block relative p-4 sm:p-6 md:p-8 bg-gray-50 rounded-xl sm:rounded-2xl border border-gray-200 transition-all duration-300 ${
+                              isInteractive ? "hover:bg-white hover:shadow-xl hover:border-gray-300 hover:-translate-y-1 cursor-pointer" : ""
                             }`}
                           >
-                            {project.link && (
+                            {isInteractive && (
                               <div class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center bg-gray-900 rounded-full text-white transition-all duration-300 group-hover:bg-gray-700">
-                                <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H7M17 7V17" />
-                                </svg>
+                                {hasModal ? (
+                                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                  </svg>
+                                ) : (
+                                  <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H7M17 7V17" />
+                                  </svg>
+                                )}
                               </div>
                             )}
                             <div class="space-y-3">
                               <div class="flex flex-row gap-4">
-                                {project.image && (
-                                  <img src={project.image} alt={project.name} class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover flex-shrink-0 border border-gray-200" />
+                                {(project as any).image && (
+                                  <img src={(project as any).image} alt={project.name} class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover flex-shrink-0 border border-gray-200" />
                                 )}
                                 <div>
-                                  <span class="text-xs font-mono" style={{ color: accent }}>0{index + 1}</span>
+                                  <span class="text-xs font-mono text-gray-600" >{project.year}</span>
                                   <h4 class="text-xl sm:text-2xl font-bold text-gray-900 mt-1">{project.name}</h4>
                                 </div>
                               </div>
-                              <p class={`text-base sm:text-lg text-gray-600 leading-relaxed ${project.link ? "pr-12 sm:pr-14 md:pr-16" : ""}`}>
+                              <p class={`text-base sm:text-lg text-gray-600 leading-relaxed ${isInteractive ? "pr-12 sm:pr-14 md:pr-16" : ""}`}>
                                 {project.description}
                               </p>
                               {project.skills && project.skills.length > 0 && (
                                 <div class="flex flex-wrap gap-1.5 pt-1">
                                   {project.skills.map((skill) => (
-                                    <span class={`px-2.5 sm:px-3 py-1 sm:py-1.5 bg-gray-900 text-white rounded-md sm:rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 ${project.link ? "group-hover:bg-gray-800" : ""}`}>
+                                    <span class={`px-2.5 sm:px-3 py-1 sm:py-1.5 bg-gray-900 text-white rounded-md sm:rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 ${isInteractive ? "group-hover:bg-gray-800" : ""}`}>
                                       {skill}
                                     </span>
                                   ))}
@@ -135,7 +152,8 @@ const accent = siteConfig.accentColor;
                             )}
                             <div class="space-y-3">
                               <div>
-                                <span class="text-xs font-mono" style={{ color: accent }}>0{index + 1}</span>
+                                {!course.year && <span class="text-xs font-mono" style={{color: accent}}>0{index + 1}</span>}
+                                {course.year && <span class="text-xs font-mono text-gray-600">{course.year}</span>}
                                 <h4 class="text-xl sm:text-2xl font-bold text-gray-900 mt-1">{course.name}</h4>
                               </div>
                               <p class={`text-base sm:text-lg text-gray-600 leading-relaxed ${course.certificateLink ? "pr-12 sm:pr-14 md:pr-16" : ""}`}>
@@ -159,7 +177,55 @@ const accent = siteConfig.accentColor;
   </div>
 )}
 
+<!-- Project Modal -->
+<div id="work-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6" data-accent={accent}>
+  <div id="work-modal-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+  <div class="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto z-10">
+    <div class="p-6 sm:p-8">
+
+      <div class="flex items-start justify-between mb-1">
+        <div class="flex items-center gap-4">
+          <div id="work-modal-image-wrap" class="hidden">
+            <img id="work-modal-image" src="" alt="" class="w-16 h-16 rounded-xl object-cover border border-gray-200" />
+          </div>
+          <h3 id="work-modal-name" class="text-2xl sm:text-3xl font-bold text-gray-900"></h3>
+        </div>
+        <button id="work-modal-close" class="ml-4 flex-shrink-0 w-9 h-9 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full transition-colors">
+          <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div id="work-modal-accent-bar" class="w-[50px] h-[4px] mb-5 rounded-full"></div>
+
+      <div id="work-modal-description" class="text-gray-700 leading-relaxed mb-6 space-y-3 text-base"></div>
+
+      <div id="work-modal-skills-wrap" class="mb-6 hidden">
+        <p class="text-xs font-mono font-semibold text-gray-400 mb-2 tracking-widest">STACK</p>
+        <div id="work-modal-skills" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <div id="work-modal-link-wrap" class="hidden">
+        <a
+          id="work-modal-link"
+          href=""
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white rounded-lg font-medium text-sm hover:bg-gray-700 transition-colors"
+        >
+          See more
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H7M17 7V17" />
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <script define:vars={{ accent }}>
+  // Tab switching
   const tabs = document.querySelectorAll(".work-tab");
   const panels = document.querySelectorAll(".work-panel");
 
@@ -175,11 +241,80 @@ const accent = siteConfig.accentColor;
       });
 
       panels.forEach((p, i) => {
-        const active = i === index;
-        p.style.opacity = active ? "1" : "0";
-        p.style.pointerEvents = active ? "auto" : "none";
-        if (active) p.scrollTop = 0;
+        p.style.display = i === index ? "block" : "none";
       });
     });
+  });
+
+  // Modal
+  const modal = document.getElementById("work-modal");
+  const accentBar = document.getElementById("work-modal-accent-bar");
+  accentBar.style.backgroundColor = accent;
+
+  function openModal(project) {
+    document.getElementById("work-modal-name").textContent = project.name;
+
+    const descEl = document.getElementById("work-modal-description");
+    descEl.innerHTML = "";
+    project.detailedDescription.split("\n").forEach((para) => {
+      if (para.trim()) {
+        const p = document.createElement("p");
+        p.textContent = para;
+        descEl.appendChild(p);
+      }
+    });
+
+    const imageWrap = document.getElementById("work-modal-image-wrap");
+    const imageEl = document.getElementById("work-modal-image");
+    if (project.image) {
+      imageEl.src = project.image;
+      imageEl.alt = project.name;
+      imageWrap.classList.remove("hidden");
+    } else {
+      imageWrap.classList.add("hidden");
+    }
+
+    const skillsWrap = document.getElementById("work-modal-skills-wrap");
+    const skillsEl = document.getElementById("work-modal-skills");
+    if (project.skills && project.skills.length > 0) {
+      skillsEl.innerHTML = project.skills
+        .map((s) => `<span class="px-3 py-1.5 bg-gray-900 text-white rounded-lg text-sm font-medium">${s}</span>`)
+        .join("");
+      skillsWrap.classList.remove("hidden");
+    } else {
+      skillsWrap.classList.add("hidden");
+    }
+
+    const linkWrap = document.getElementById("work-modal-link-wrap");
+    const linkEl = document.getElementById("work-modal-link");
+    if (project.link) {
+      linkEl.href = project.link;
+      linkWrap.classList.remove("hidden");
+    } else {
+      linkWrap.classList.add("hidden");
+    }
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    document.body.style.overflow = "";
+  }
+
+  document.querySelectorAll("[data-open-modal]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const data = JSON.parse(btn.dataset.project);
+      openModal(data);
+    });
+  });
+
+  document.getElementById("work-modal-close").addEventListener("click", closeModal);
+  document.getElementById("work-modal-backdrop").addEventListener("click", closeModal);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
   });
 </script>
