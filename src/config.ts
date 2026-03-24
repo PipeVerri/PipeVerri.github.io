@@ -99,15 +99,21 @@ export const siteConfig = {
               name: "Nutritionista",
               year: "2025",
               description: "A diet app that scanned your pantry and generated personalized recipes and meal plans using nutrition algorithms and GPT.",
-              detailedDescription: `Nutritionista was a React Native app I built and shipped internationally on the Play Store. The core idea: dieting is hard because it requires constant decision-making. The app aimed to remove that friction by generating recipes tailored to what the user already had at home, their caloric target, and their preferences (filling vs light, sweet vs savory).
+              detailedDescription: `
+## The Problem
+Dieting is hard because it requires constant decision-making. Nutritionista aimed to remove that friction by generating recipes tailored to what the user already had at home, their caloric target, and their preferences (filling vs light, sweet vs savory).
 
-Users could build their pantry by scanning barcodes (via OpenFoodFacts, self-hosted, and FatSecret) or adding items manually. From there, the app calculated maintenance calories using standard nutrition formulas, split them across meals, and used GPT to generate recipes that fit both the pantry and the plan.
+## How It Worked
+Users built their pantry by scanning barcodes (via OpenFoodFacts, self-hosted, and FatSecret) or adding items manually. The app calculated maintenance calories using standard nutrition formulas, split them across meals, and used GPT to generate recipes that fit both the pantry and the plan.
 
-The app reached users across Europe without any paid advertising, and had one paying customer.
+## Traction
+Built with React Native and shipped internationally on the Play Store. Reached users across Eastern Europe without any paid advertising, and had one paying customer.
 
-I shut it down after running UX interviews at my gym. The insight: I was targeting a market that barely exists. People either go free (MyFitnessPal, etc.) or go all-in with a coach — nobody wants the middle ground. I also noticed that even coaches struggle to retain clients on a diet, which made me realize that retention-based monetization was structurally hard in this space regardless of the product quality.
+## What I Learned
+After running UX interviews at my gym, I realized I was targeting a market that barely exists. People either go free (MyFitnessPal, etc.) or go all-in with a coach — nobody wants the middle ground. I also noticed that even coaches struggle to retain dieting clients, which made retention-based monetization structurally hard regardless of product quality.
 
-It was my first real product. I learned more from shutting it down than from building it.`,
+It was my first real product. I learned more from shutting it down than from building it.
+  `,
             }
           ]
         },
