@@ -9,10 +9,9 @@ export const siteConfig = {
     github: "https://github.com/PipeVerri",
   },
   aboutMe:
-    "Self-taught developer, last year of high school, based in Mendoza, Argentina.\n" +
-      "I've gone through web development, competitive programming (OIA, Codeforces), founded a small software venture, and now I'm into machine learning — with a growing curiosity for bioinformatics.\n" +
-      "I like problems that make you think before they let you build.",
-  skills: ["Python", "Typescript", "C++", "React Native", "Node.js"],
+    "Self-taught developer, last year of high school, based in Mendoza, Argentina.\n\n" +
+      "I've gone through web development, competitive programming (OIA, Codeforces), founded a small software venture, and now I'm into machine learning — with a growing curiosity for bioinformatics.",
+  skills: ["Python", "Typescript", "C++", "React Native", "Node.js", "Rust"],
   projectGroups: [
     {
       name: "Sign Translation",
@@ -53,6 +52,43 @@ export const siteConfig = {
   ],
   workTopics: [
     {
+      name: "Sign language translation",
+      lists: {
+        "Projects": {
+          icon: "arrow",
+          items: [
+            {
+              name: "LSA-Translator",
+              description: "Ongoing research project on Argentine Sign Language (LSA) recognition using deep learning. No results yet — but with experimental techniques in progress that I expect to work.",
+              link: "https://github.com/PipeVerri/LSA-translator",
+              year: "2025",
+              skills: ["Python", "PyTorch", "Transformers", "RNNs"]
+            },
+            {
+              name: "Sign-Pipeline",
+              description: "Automated dataset generation pipeline for continuous sign language translation.",
+              link: "https://github.com/PipeVerri/Sign-pipeline",
+              year: "2025",
+              skills: ["Python", "OpenCV", "RTMLib"],
+            },
+            {
+              name: "LSA-X",
+              description: "Argentine Sign Language dataset built using Sign-Pipeline over a curated set of videos, with additional processing scripts.",
+              link: "https://github.com/PipeVerri/LSA-X",
+              year: "2025"
+            },
+            {
+              name: "KNN-SignTranslator",
+              description: "Early exploration into static ASL sign recognition using MediaPipe landmarks and KNN. Purely experimental.",
+              link: "https://github.com/PipeVerri/KNN-SignTranslator",
+              year: "2022",
+              skills: ["Python", "Machine Learning"]
+            },
+          ],
+        },
+      },
+    },
+    {
       name: "Cybersecurity",
       lists: {
         "Projects": {
@@ -62,13 +98,15 @@ export const siteConfig = {
               name: "Scanz",
               description: "ARP-based multithreaded network scanner designed for speed",
               link: "https://github.com/PipeVerri/Scanz",
-              year: "2021"
+              year: "2021",
+              skills: ["Python", "Networking"]
             },
             {
               name: "TryHackMe",
               description: "Played around on TryHackMe and completed ~90 rooms.",
               link: "https://tryhackme.com/p/argenPipe",
-              year: "2021"
+              year: "2021",
+              skills: ["Pentesting", "Linux"]
             },
           ],
         },
@@ -90,15 +128,16 @@ export const siteConfig = {
       },
     },
     {
-      name: "Uncategorized",
+      name: "Entrepreneurship",
       lists: {
         "Projects": {
           icon: "arrow",
           items: [
             {
-              name: "Nutritionista",
+              name: "Nutritionista — AI Diet App · Business Venture",
               year: "2025",
               description: "A diet app that scanned your pantry and generated personalized recipes and meal plans using nutrition algorithms and GPT.",
+              skills: ["React Native", "Node.js", "Entrepreneurship"],
               detailedDescription: `
 ## The Problem
 Dieting is hard because it requires constant decision-making. Nutritionista aimed to remove that friction by generating recipes tailored to what the user already had at home, their caloric target, and their preferences (filling vs light, sweet vs savory).
@@ -117,6 +156,11 @@ It was my first real product. I learned more from shutting it down than from bui
             }
           ]
         },
+      },
+    },
+    {
+      name: "Competitions",
+      lists: {
         "Events": {
           icon: "certificate",
           items: [
@@ -125,17 +169,41 @@ It was my first real product. I learned more from shutting it down than from bui
               description: "Trained on codeforces an leetcode, placed 2nd in the country at the jurisdictional stage.",
               detailedDescription: "Placed 2nd in the country at the olympiad's jurisdictional stage. At nationals, got tired from over-preparation and placed 7th.\nAlso reached a peak Codeforces rating of 1300 in about a month of active training before shifting focus to entrepreneurship.",
               link: "asdasdasdasd", // TODO
+              skills: ["C++", "Competitive Programming"],
               year: "2024"
             },
             {
               name: "Participated in NASA's Space App Challenge Hackathon",
               description: "Participated in NASA's global hackathon as part of a 5-person team. Built an educational game about terraforming using Godot.",
               link: "https://drive.google.com/file/d/1tT177CSXuWZZcQyjLQ6GzdmNLimNuLwe/view?usp=drive_link",
+              skills: ["Godot"],
               year: "2023"
             }
           ],
         },
       },
+    },
+    {
+      name: "Low level",
+      lists: {
+        Projects: {
+          icon: "arrow",
+          items: [
+            {
+              name: "X86-OS",
+              description: "A minimal x86 operating system built from scratch in 16-bit assembly as a self-learning project.",
+              skills: ["Assembly"],
+              link: "https://github.com/PipeVerri/X86-OS"
+            },
+            {
+              name: "Gust",
+              description: "A lightweight, Git-inspired version control system written in Rust. Made it because I wanted to try Rust.",
+              skills: ["Rust"],
+              link: "https://github.com/PipeVerri/Gust"
+            }
+          ]
+        }
+      }
     },
     {
       name: "Game development",
@@ -147,7 +215,8 @@ It was my first real product. I learned more from shutting it down than from bui
               name: "A night in the forest",
               description: "My first \"big\" project, made using Godot. Spent more time on the art than on the code",
               link: "https://argenpipe.itch.io/a-nigth-in-the-forest",
-              year: "2020"
+              year: "2020",
+              skills: ["Godot"]
             }
           ],
         },
@@ -158,42 +227,9 @@ It was my first real product. I learned more from shutting it down than from bui
               name: "Tekkie Uni Mobile Development",
               description: "Mobile game and app development using LiveCode",
               link: "https://drive.google.com/file/d/1kaXa8_5DHbcKz9zedkCBETTJMxNBgdTe/view?usp=sharing",
-              year: "2019"
+              year: "2019",
+              skills: ["Livecode"]
             }
-          ],
-        },
-      },
-    },
-    {
-      name: "Sign language translation",
-      lists: {
-        "Projects": {
-          icon: "arrow",
-          items: [
-            {
-              name: "LSA-Translator",
-              description: "Ongoing research project on Argentine Sign Language (LSA) recognition using deep learning. No results yet — but with experimental techniques in progress that I expect to work.",
-              link: "https://github.com/PipeVerri/LSA-translator",
-              year: "2025"
-            },
-            {
-              name: "Sign-Pipeline",
-              description: "Automated dataset generation pipeline for continuous sign language translation.",
-              link: "https://github.com/PipeVerri/Sign-pipeline",
-              year: "2025"
-            },
-            {
-              name: "LSA-X",
-              description: "Argentine Sign Language dataset built using Sign-Pipeline over a curated set of videos, with additional processing scripts.",
-              link: "https://github.com/PipeVerri/LSA-X",
-              year: "2025"
-            },
-            {
-              name: "KNN-SignTranslator",
-              description: "Early exploration into static ASL sign recognition using MediaPipe landmarks and KNN. Purely experimental.",
-              link: "https://github.com/PipeVerri/KNN-SignTranslator",
-              year: "2022"
-            },
           ],
         },
       },
@@ -208,5 +244,13 @@ It was my first real product. I learned more from shutting it down than from bui
 
       ],
     },
+    {
+      school: "St Andrew's College Language Schools",
+      degree: "General English CEF B2",
+      dateRange: "July 2024",
+      achievements: [
+          "Studied abroad in England for a month"
+      ]
+    }
   ],
 };
