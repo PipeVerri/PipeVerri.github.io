@@ -44,129 +44,92 @@ const accent = siteConfig.accentColor;
           >
             <div class="space-y-12 pr-2">
 
-              {/* Projects */}
-              {topic.projects && topic.projects.length > 0 && (
-                <div>
-                  <h3 class="text-lg font-bold font-mono mb-4 pb-2 border-b border-gray-200" style={{ color: accent }}>
-                    Projects
-                  </h3>
-                  <div class="space-y-6">
-                    {topic.projects.map((project, index) => {
-                      const hasModal = !!(project as any).detailedDescription;
-                      const isLink = !hasModal && !!project.link;
-                      const Component = isLink ? "a" : "button";
-                      const extraProps = isLink
-                        ? { href: project.link!, target: "_blank", rel: "noopener noreferrer" }
-                        : hasModal
-                          ? {
-                              "data-open-modal": "",
-                              "data-project": JSON.stringify({
-                                name: project.name,
-                                description: project.description,
-                                detailedDescription: (project as any).detailedDescription,
-                                link: project.link ?? null,
-                                image: (project as any).image ?? null,
-                                skills: project.skills ?? [],
-                              }),
-                            }
-                          : {};
-                      const isInteractive = hasModal || isLink;
-                      return (
-                        <div class="group relative">
-                          <Component
-                            {...extraProps}
-                            class={`w-full text-left block relative p-4 sm:p-6 md:p-8 bg-gray-50 rounded-xl sm:rounded-2xl border border-gray-200 transition-all duration-300 ${
-                              isInteractive ? "hover:bg-white hover:shadow-xl hover:border-gray-300 hover:-translate-y-1 cursor-pointer" : ""
-                            }`}
-                          >
-                            {isInteractive && (
-                              <div class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center bg-gray-900 rounded-full text-white transition-all duration-300 group-hover:bg-gray-700">
-                                {hasModal ? (
-                                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                  </svg>
-                                ) : (
-                                  <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H7M17 7V17" />
-                                  </svg>
-                                )}
-                              </div>
-                            )}
-                            <div class="space-y-3">
-                              <div class="flex flex-row gap-4">
-                                {(project as any).image && (
-                                  <img src={(project as any).image} alt={project.name} class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover flex-shrink-0 border border-gray-200" />
-                                )}
-                                <div>
-                                  <span class="text-xs font-mono text-gray-600" >{project.year}</span>
-                                  <h4 class="text-xl sm:text-2xl font-bold text-gray-900 mt-1">{project.name}</h4>
-                                </div>
-                              </div>
-                              <p class={`text-base sm:text-lg text-gray-600 leading-relaxed ${isInteractive ? "pr-12 sm:pr-14 md:pr-16" : ""}`}>
-                                {project.description}
-                              </p>
-                              {project.skills && project.skills.length > 0 && (
-                                <div class="flex flex-wrap gap-1.5 pt-1">
-                                  {project.skills.map((skill) => (
-                                    <span class={`px-2.5 sm:px-3 py-1 sm:py-1.5 bg-gray-900 text-white rounded-md sm:rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 ${isInteractive ? "group-hover:bg-gray-800" : ""}`}>
-                                      {skill}
-                                    </span>
-                                  ))}
+              {topic.lists && Object.entries(topic.lists).map(([listName, list]) => (
+                list.items && list.items.length > 0 && (
+                  <div>
+                    <h3 class="text-lg font-bold font-mono mb-4 pb-2 border-b border-gray-200" style={{ color: accent }}>
+                      {listName}
+                    </h3>
+                    <div class="space-y-6">
+                      {list.items.map((item, index) => {
+                        const hasModal = !!(item as any).detailedDescription;
+                        const isLink = !hasModal && !!item.link;
+                        const Component = isLink ? "a" : hasModal ? "button" : "div";
+                        const extraProps = isLink
+                          ? { href: item.link!, target: "_blank", rel: "noopener noreferrer" }
+                          : hasModal
+                            ? {
+                                "data-open-modal": "",
+                                "data-project": JSON.stringify({
+                                  name: item.name,
+                                  description: item.description,
+                                  detailedDescription: (item as any).detailedDescription,
+                                  link: item.link ?? null,
+                                  image: (item as any).image ?? null,
+                                  skills: (item as any).skills ?? [],
+                                }),
+                              }
+                            : {};
+                        const isInteractive = hasModal || isLink;
+                        return (
+                          <div class="group relative">
+                            <Component
+                              {...extraProps}
+                              class={`w-full text-left block relative p-4 sm:p-6 md:p-8 bg-gray-50 rounded-xl sm:rounded-2xl border border-gray-200 transition-all duration-300 ${
+                                isInteractive ? "hover:bg-white hover:shadow-xl hover:border-gray-300 hover:-translate-y-1 cursor-pointer" : ""
+                              }`}
+                            >
+                              {isInteractive && (
+                                <div class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center bg-gray-900 rounded-full text-white transition-all duration-300 group-hover:bg-gray-700">
+                                  {hasModal ? (
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                  ) : list.icon === "certificate" ? (
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                    </svg>
+                                  ) : (
+                                    <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H7M17 7V17" />
+                                    </svg>
+                                  )}
                                 </div>
                               )}
-                            </div>
-                          </Component>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {/* Courses */}
-              {topic.courses && topic.courses.length > 0 && (
-                <div>
-                  <h3 class="text-lg font-bold font-mono mb-4 pb-2 border-b border-gray-200" style={{ color: accent }}>
-                    Courses
-                  </h3>
-                  <div class="space-y-6">
-                    {topic.courses.map((course, index) => {
-                      const Component = course.certificateLink ? "a" : "div";
-                      const linkProps = course.certificateLink
-                        ? { href: course.certificateLink, target: "_blank", rel: "noopener noreferrer" }
-                        : {};
-                      return (
-                        <div class="group relative">
-                          <Component
-                            {...linkProps}
-                            class={`block relative p-4 sm:p-6 md:p-8 bg-gray-50 rounded-xl sm:rounded-2xl border border-gray-200 transition-all duration-300 ${
-                              course.certificateLink ? "hover:bg-white hover:shadow-xl hover:border-gray-300 hover:-translate-y-1" : ""
-                            }`}
-                          >
-                            {course.certificateLink && (
-                              <div class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center bg-gray-900 rounded-full text-white transition-all duration-300 group-hover:bg-gray-700">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                </svg>
+                              <div class="space-y-3">
+                                <div class="flex flex-row gap-4">
+                                  {(item as any).image && (
+                                    <img src={(item as any).image} alt={item.name} class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover flex-shrink-0 border border-gray-200" />
+                                  )}
+                                  <div>
+                                    {item.year
+                                      ? <span class="text-xs font-mono text-gray-600">{item.year}</span>
+                                      : <span class="text-xs font-mono" style={{color: accent}}>0{index + 1}</span>
+                                    }
+                                    <h4 class="text-xl sm:text-2xl font-bold text-gray-900 mt-1">{item.name}</h4>
+                                  </div>
+                                </div>
+                                <p class={`text-base sm:text-lg text-gray-600 leading-relaxed ${isInteractive ? "pr-12 sm:pr-14 md:pr-16" : ""}`}>
+                                  {item.description}
+                                </p>
+                                {(item as any).skills && (item as any).skills.length > 0 && (
+                                  <div class="flex flex-wrap gap-1.5 pt-1">
+                                    {(item as any).skills.map((skill: string) => (
+                                      <span class={`px-2.5 sm:px-3 py-1 sm:py-1.5 bg-gray-900 text-white rounded-md sm:rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 ${isInteractive ? "group-hover:bg-gray-800" : ""}`}>
+                                        {skill}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
                               </div>
-                            )}
-                            <div class="space-y-3">
-                              <div>
-                                {!course.year && <span class="text-xs font-mono" style={{color: accent}}>0{index + 1}</span>}
-                                {course.year && <span class="text-xs font-mono text-gray-600">{course.year}</span>}
-                                <h4 class="text-xl sm:text-2xl font-bold text-gray-900 mt-1">{course.name}</h4>
-                              </div>
-                              <p class={`text-base sm:text-lg text-gray-600 leading-relaxed ${course.certificateLink ? "pr-12 sm:pr-14 md:pr-16" : ""}`}>
-                                {course.description}
-                              </p>
-                            </div>
-                          </Component>
-                        </div>
-                      );
-                    })}
+                            </Component>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              )}
+                )
+              ))}
 
             </div>
           </div>
