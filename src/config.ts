@@ -1,38 +1,46 @@
 export const siteConfig = {
-  name: "Ryan Fitzgerald",
-  title: "Senior Software Engineer",
-  description: "Portfolio website of Ryan Fitzgerald",
-  accentColor: "#1d4ed8",
+  name: "Felipe Verri",
+  title: "ML & Software Engineering Student",
+  description: "Portfolio website of Felipe Verri",
+  accentColor: "#19a337",
   social: {
-    email: "your-email@example.com",
-    linkedin: "https://linkedin.com/in/yourprofile",
-    twitter: "https://x.com/rfitzio",
-    github: "https://github.com/RyanFitzgerald",
+    email: "pipe.verri@gmail.com",
+    linkedin: "https://linkedin.com/in/felipe-verri-82a126272",
+    github: "https://github.com/PipeVerri",
   },
   aboutMe:
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem quos asperiores nihil consequatur tempore cupiditate architecto natus commodi corrupti quas quasi facere est, dignissimos odit nam veniam sapiente ut, vitae eligendi ipsum dolor, nostrum ullam impedit! Corrupti ratione mollitia temporibus necessitatibus, consectetur reiciendis recusandae id, dolorum quaerat, vero pariatur. Ratione!",
-  skills: ["Javascript", "React", "Node.js", "Python", "AWS", "Docker"],
-  projects: [
+    "Self-taught developer, last year of high school, based in Mendoza, Argentina.\n" +
+      "I've gone through web development, competitive programming (OIA, Codeforces), founded a small software venture, and now I'm deep into machine learning — with a growing curiosity for bioinformatics.\n" +
+      "I like problems that make you think before they let you build.",
+  skills: ["Python", "Typescript", "C++", "React Native", "Node.js"],
+  projectGroups: [
     {
-      name: "AI Dev Roundup Newsletter",
-      description:
-        "One concise email. Five minutes. Every Tuesday. Essential AI news & trends, production-ready libraries, powerful AI tools, and real-world code examples",
-      link: "https://aidevroundup.com/?ref=devportfolio",
-      skills: ["React", "Node.js", "AWS"],
+      name: "Sign Translation",
+      projects: [
+        {
+          name: "LSA-X",
+          description: "COCO-Format Pose Landmarks and Aligned Subtitles for Argentine Sign Language (LSA) Video Recognition",
+          link: "https://github.com/PipeVerri/LSA-X",
+          skills: ["Python", "OpenCV", "RTMLib"],
+        },
+        {
+          name: "LSA Translator",
+          description: "Deep learning pipeline for real-time Argentine Sign Language recognition and translation from video input.",
+          link: "https://github.com/PipeVerri/LSA-translator",
+          skills: ["Python", "PyTorch", "Transformers", "RNNs"]
+        }
+      ],
     },
     {
-      name: "Chrome Extension Mastery: Build Full-Stack Extensions with React & Node.js",
-      description:
-        "Master the art of building production-ready, full-stack Chrome Extensions using modern web technologies and best practices",
-      link: "https://fullstackextensions.com/?ref=devportfolio",
-      skills: ["React", "Node.js", "AWS"],
-    },
-    {
-      name: "ExtensionKit",
-      description:
-        "Kit to jump-start your Chrome extension projects with a variety of battle-tested starter templates & examples",
-      link: "https://extensionkit.io/?ref=devportfolio",
-      skills: ["React", "Node.js", "AWS"],
+      name: "ML & Bioinformatics",
+      projects: [
+        {
+          name: "Bioinformatics Portfolio",
+          description: "A collection of bioinformatics experiments focused on genomics, sequence analysis, and algorithmic problems.",
+          link: "https://github.com/PipeVerri/Bioinformatics-portfolio",
+          skills: ["Python", "PyTorch"],
+        },
+      ],
     },
   ],
   experience: [
