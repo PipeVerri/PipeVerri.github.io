@@ -10,7 +10,7 @@ export const siteConfig = {
   },
   aboutMe:
     "Self-taught developer, last year of high school, based in Mendoza, Argentina.\n" +
-      "I've gone through web development, competitive programming (OIA, Codeforces), founded a small software venture, and now I'm deep into machine learning — with a growing curiosity for bioinformatics.\n" +
+      "I've gone through web development, competitive programming (OIA, Codeforces), founded a small software venture, and now I'm into machine learning — with a growing curiosity for bioinformatics.\n" +
       "I like problems that make you think before they let you build.",
   skills: ["Python", "Typescript", "C++", "React Native", "Node.js"],
   projectGroups: [
@@ -38,40 +38,16 @@ export const siteConfig = {
           name: "Bioinformatics Portfolio",
           description: "A collection of bioinformatics experiments focused on genomics, sequence analysis, and algorithmic problems.",
           link: "https://github.com/PipeVerri/Bioinformatics-portfolio",
-          skills: ["Python", "PyTorch"],
+          skills: ["Python", "Biopython"],
+          image: "/projects/gc-skew.png"
         },
-      ],
-    },
-  ],
-  experience: [
-    {
-      company: "Tech Company",
-      title: "Senior Software Engineer",
-      dateRange: "Jan 2022 - Present",
-      bullets: [
-        "Led development of microservices architecture serving 1M+ users",
-        "Reduced API response times by 40% through optimization",
-        "Mentored team of 5 junior developers",
-      ],
-    },
-    {
-      company: "Startup Inc",
-      title: "Full Stack Developer",
-      dateRange: "Jun 2020 - Dec 2021",
-      bullets: [
-        "Built and launched MVP product from scratch using React and Node.js",
-        "Implemented CI/CD pipeline reducing deployment time by 60%",
-        "Collaborated with product team to define technical requirements",
-      ],
-    },
-    {
-      company: "Digital Agency",
-      title: "Frontend Developer",
-      dateRange: "Aug 2018 - May 2020",
-      bullets: [
-        "Developed responsive web applications for 20+ clients",
-        "Improved site performance scores by 35% on average",
-        "Introduced modern JavaScript frameworks to legacy codebases",
+        {
+          name: "ML Portfolio",
+          description: "A collection of experiments and projects focused on computer vision, dimensionality reduction, and unsupervised learning, using both standard frameworks and from-scratch implementations.",
+          link: "https://github.com/PipeVerri/ML-portfolio",
+          skills: ["Python", "PyTorch"],
+          image: "/projects/loss-landscape.png"
+        },
       ],
     },
   ],

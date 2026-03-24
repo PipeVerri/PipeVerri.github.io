@@ -67,18 +67,18 @@ const hasProjects = siteConfig.projectGroups && siteConfig.projectGroups.length 
                               </div>
                             )}
 
+
+
                             <div class="space-y-3">
-                              <div>
-                                <span
-                                  class="text-xs font-mono"
-                                  style={{ color: siteConfig.accentColor }}
-                                >
-                                  0{index + 1}
-                                </span>
-                                <h4 class="text-xl sm:text-2xl font-bold text-gray-900 mt-1">
-                                  {project.name}
-                                </h4>
-                              </div>
+                              <span
+                                class="text-xs font-mono"
+                                style={{ color: siteConfig.accentColor }}
+                              >
+                                0{index + 1}
+                              </span>
+                              <h4 class="text-xl sm:text-2xl font-bold text-gray-900 mt-1">
+                                {project.name}
+                              </h4>
 
                               <p
                                 class={`text-base sm:text-lg text-gray-600 leading-relaxed ${project.link ? "pr-12 sm:pr-14 md:pr-16" : ""}`}
