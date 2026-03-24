@@ -20,7 +20,9 @@ const accent = siteConfig.accentColor;
         style="height: 72vh; height: 72dvh;"
       >
         <div class="space-y-12 pr-2">
-          {siteConfig.projectGroups.map((group) => (
+          {(() => {
+            let globalIndex = 0;
+            return siteConfig.projectGroups.map((group) => (
             <div>
               <h3
                 class="text-lg font-bold font-mono mb-4 pb-2 border-b border-gray-200"
@@ -29,7 +31,8 @@ const accent = siteConfig.accentColor;
                 {group.name}
               </h3>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-stretch">
-                {group.projects.map((project, index) => {
+                {group.projects.map((project) => {
+                  const index = globalIndex++;
                   const Component = project.link ? "a" : "div";
                   const linkProps = project.link
                     ? { href: project.link, target: "_blank", rel: "noopener noreferrer" }
@@ -78,7 +81,8 @@ const accent = siteConfig.accentColor;
                 })}
               </div>
             </div>
-          ))}
+          ));
+          })()}
         </div>
       </div>
 
