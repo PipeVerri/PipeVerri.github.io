@@ -11,6 +11,10 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^5.12.3",
+    "fullpage.js": "^4.0.41",
     "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "@types/fullpage.js": "^2.9.6"
   }
 }

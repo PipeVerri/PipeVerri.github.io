@@ -42,7 +42,7 @@ export const siteConfig = {
         },
         {
           name: "ML Portfolio",
-          description: "A collection of experiments and projects focused on computer vision, dimensionality reduction, and unsupervised learning, using both standard frameworks and from-scratch implementations.",
+          description: "A collection of experiments and projects focused on computer vision, dimensionality reduction, and unsupervised learning.",
           link: "https://github.com/PipeVerri/ML-portfolio",
           skills: ["Python", "PyTorch"],
           image: "/projects/loss-landscape.png"
