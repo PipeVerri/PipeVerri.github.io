@@ -5,11 +5,11 @@ const accent = siteConfig.accentColor;
 ---
 
 {hasWorkTopics && (
-  <div id="my-work" class="slide flex items-start px-8 sm:px-12 md:px-16 lg:px-24 py-16 bg-white section overflow-hidden h-screen" style="height: auto; min-height: 100vh; overflow: visible;">
+  <div id="my-work" class="slide flex items-start px-8 sm:px-12 md:px-16 lg:px-24 py-16 bg-white section overflow-visible h-screen" style="height: auto; min-height: 100vh; overflow: visible;">
     <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start h-full">
 
       {/* Left: heading + tabs */}
-      <div class="lg:col-span-4 sticky top-0 h-screen flex flex-col justify-center">
+      <div class="lg:col-span-4 sticky top-0 h-screen flex flex-col">
         <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900">
           My Work
         </h2>
@@ -28,14 +28,15 @@ const accent = siteConfig.accentColor;
               }}
             >
               <span class="text-xs mr-2 opacity-60">0{i + 1}</span>
-              {topic.name}
+              <span class="font-bold">{topic.name}</span>
             </button>
           ))}
         </nav>
       </div>
 
       {/* Right: panels */}
-      <div id="work-right-panel" class="lg:col-span-8 overflow-y-auto" style="max-height: calc(100vh - 8rem);">
+      <div class="lg:col-span-8" style="overflow: visible;">
+      <div id="work-right-panel" class="overflow-y-auto" style="height: calc(100vh - 8rem); padding: 20px 28px 28px 20px;">
         <div id="work-panels-wrapper" style="position: relative;">
         {siteConfig.workTopics.map((topic, topicIndex) => (
           <div
@@ -43,7 +44,7 @@ const accent = siteConfig.accentColor;
             data-index={topicIndex}
             style={{ display: topicIndex === 0 ? "block" : "none" }}
           >
-            <div class="space-y-12 pr-2">
+            <div class="space-y-12">
 
               {topic.lists && Object.entries(topic.lists).map(([listName, list]) => (
                 list.items && list.items.length > 0 && (
@@ -137,6 +138,7 @@ const accent = siteConfig.accentColor;
         ))}
         </div>
       </div>
+      </div>
 
     </div>
   </div>
@@ -221,6 +223,10 @@ const accent = siteConfig.accentColor;
     });
 
     const slideHeight = rightPanel?.clientHeight ?? 600;
+    const scrollBefore = rightPanel?.scrollTop ?? 0;
+
+    // Reset scroll and compensate visually with y offset on the outgoing panel
+    if (rightPanel) rightPanel.scrollTop = 0;
 
     // Fix wrapper height and clip during animation
     if (wrapper) {
@@ -228,8 +234,8 @@ const accent = siteConfig.accentColor;
       wrapper.style.overflow = "hidden";
     }
 
-    // Position both panels absolutely for the slide
-    gsap.set(outPanel, { position: "absolute", top: 0, left: 0, right: 0 });
+    // outPanel starts at its scrolled visual position, newPanel starts off-screen
+    gsap.set(outPanel, { position: "absolute", top: 0, left: 0, right: 0, y: -scrollBefore });
     gsap.set(newPanel, { display: "block", position: "absolute", top: 0, left: 0, right: 0, y: direction * slideHeight });
 
     gsap.timeline({
@@ -245,7 +251,7 @@ const accent = siteConfig.accentColor;
         }
       },
     })
-      .to(outPanel, { y: direction * -slideHeight, duration: 0.38, ease: "power2.inOut" }, 0)
+      .to(outPanel, { y: -scrollBefore + direction * -slideHeight, duration: 0.38, ease: "power2.inOut" }, 0)
       .to(newPanel, { y: 0, duration: 0.38, ease: "power2.inOut" }, 0);
   }
 
@@ -295,7 +301,7 @@ const accent = siteConfig.accentColor;
           overscrollAccum = 0;
           isTransitioning = true;
           if (currentTab > 0) {
-            goToTab(currentTab - 1, true);
+            goToTab(currentTab - 1, false);
           } else {
             // @ts-ignore
             fullpage_api.moveSectionUp();
