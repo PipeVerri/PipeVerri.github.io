@@ -147,7 +147,7 @@ const accent = siteConfig.accentColor;
 <!-- Project Modal -->
 <div id="work-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6" data-accent={accent}>
   <div id="work-modal-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
-  <div class="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto z-10">
+  <div class="relative bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto z-10">
     <div class="p-6 sm:p-8">
 
       <div class="flex items-start justify-between mb-1">
@@ -321,8 +321,9 @@ const accent = siteConfig.accentColor;
     }, { passive: false });
   }
 
-  // Modal
+  // Modal — move outside fullpage to avoid CSS transform interference with position:fixed
   const modal = document.getElementById("work-modal");
+  document.body.appendChild(modal);
   const accentBar = document.getElementById("work-modal-accent-bar");
   accentBar.style.backgroundColor = accent;
 
@@ -411,11 +412,12 @@ const accent = siteConfig.accentColor;
     document.body.style.overflow = "";
   }
 
-  document.querySelectorAll("[data-open-modal]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const data = JSON.parse(btn.dataset.project);
+  document.addEventListener("click", (e) => {
+    const btn = (e.target as Element).closest("[data-open-modal]");
+    if (btn) {
+      const data = JSON.parse((btn as HTMLElement).dataset.project || "{}");
       openModal(data);
-    });
+    }
   });
 
   document.getElementById("work-modal-close").addEventListener("click", closeModal);

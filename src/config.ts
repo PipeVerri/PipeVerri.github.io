@@ -89,6 +89,36 @@ export const siteConfig = {
       },
     },
     {
+      name: "Machine Learning",
+      lists: {
+        "Projects": {
+          icon: "arrow",
+          items: [
+            {
+              name: "Truco RL",
+              description: "Two neural network agents learning to play Truco through a genetic algorithm.",
+              link: "https://github.com/PipeVerri/Truco-RL",
+              skills: ["Python", "Reinforcement Learning"]
+            },
+            {
+              name: "Bioinformatics Portfolio",
+              description: "A collection of bioinformatics experiments focused on genomics, sequence analysis, and algorithmic problems.",
+              link: "https://github.com/PipeVerri/Bioinformatics-portfolio",
+              skills: ["Python", "Biopython"],
+              image: "/projects/gc-skew.png"
+            },
+            {
+              name: "ML Portfolio",
+              description: "A collection of experiments and projects focused on computer vision, dimensionality reduction, and unsupervised learning.",
+              link: "https://github.com/PipeVerri/ML-portfolio",
+              skills: ["Python", "PyTorch"],
+              image: "/projects/loss-landscape.png"
+            },
+          ]
+        }
+      }
+    },
+    {
       name: "Cybersecurity",
       lists: {
         "Projects": {
@@ -138,6 +168,7 @@ export const siteConfig = {
               year: "2025",
               description: "A diet app that scanned your pantry and generated personalized recipes and meal plans using nutrition algorithms and GPT.",
               skills: ["React Native", "Node.js", "Entrepreneurship"],
+              link: "https://nutritionista.framer.website",
               detailedDescription: `
 ## The Problem
 Dieting is hard because it requires constant decision-making. Nutritionista aimed to remove that friction by generating recipes tailored to what the user already had at home, their caloric target, and their preferences (filling vs light, sweet vs savory).
@@ -150,8 +181,6 @@ Built with React Native and shipped internationally on the Play Store. Reached u
 
 ## What I Learned
 After running UX interviews at my gym, I realized I was targeting a market that barely exists. People either go free (MyFitnessPal, etc.) or go all-in with a coach — nobody wants the middle ground. I also noticed that even coaches struggle to retain dieting clients, which made retention-based monetization structurally hard regardless of product quality.
-
-It was my first real product. I learned more from shutting it down than from building it.
   `,
             }
           ]
@@ -178,6 +207,11 @@ It was my first real product. I learned more from shutting it down than from bui
               link: "https://drive.google.com/file/d/1tT177CSXuWZZcQyjLQ6GzdmNLimNuLwe/view?usp=drive_link",
               skills: ["Godot"],
               year: "2023"
+            },
+            {
+              name: "Participated in regional and national Model United Nations (MUN) conferences",
+              description: "Participated in OAJNU and ANU-AR Model United Nations conferences, representing countries in simulated UN committees.",
+              year: "2023 - 2024"
             }
           ],
         },
