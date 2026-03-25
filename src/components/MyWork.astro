@@ -35,7 +35,8 @@ const accent = siteConfig.accentColor;
       </div>
 
       {/* Right: panels */}
-      <div class="lg:col-span-8 overflow-y-auto" style="max-height: calc(100vh - 8rem);">
+      <div id="work-right-panel" class="lg:col-span-8 overflow-y-auto" style="max-height: calc(100vh - 8rem);">
+        <div id="work-panels-wrapper" style="position: relative;">
         {siteConfig.workTopics.map((topic, topicIndex) => (
           <div
             class="work-panel"
@@ -134,6 +135,7 @@ const accent = siteConfig.accentColor;
             </div>
           </div>
         ))}
+        </div>
       </div>
 
     </div>
@@ -187,51 +189,125 @@ const accent = siteConfig.accentColor;
   </div>
 </div>
 
-<script define:vars={{ accent }}>
+<script>
+  import gsap from "gsap";
+
   const tabs = document.querySelectorAll(".work-tab");
   const panels = document.querySelectorAll(".work-panel");
+  const rightPanel = document.getElementById("work-right-panel") as HTMLElement | null;
+  const wrapper = document.getElementById("work-panels-wrapper") as HTMLElement | null;
+  const accent = (tabs[0] as HTMLElement)?.dataset.accent ?? "#000000";
   let currentTab = 0;
   const totalTabs = tabs.length;
+  let isTransitioning = false;
 
-  function goToTab(index) {
-    if (index < 0) {
-      fullpage_api.moveSectionUp();
-      return;
-    }
-    if (index >= totalTabs) {
-      fullpage_api.moveSectionDown();
-      return;
-    }
+  panels.forEach((p, i) => {
+    if (i !== 0) (p as HTMLElement).style.display = "none";
+  });
 
+  function goToTab(index: number, scrollToBottom = false) {
+    const direction = index > currentTab ? 1 : -1;
+    const outPanel = panels[currentTab] as HTMLElement;
+    const newPanel = panels[index] as HTMLElement;
     currentTab = index;
 
+    // Animate tab buttons
     tabs.forEach((t, i) => {
+      const el = t as HTMLElement;
       const active = i === index;
-      t.style.backgroundColor = active ? `${accent}1a` : "";
-      t.style.borderColor = active ? `${accent}40` : "transparent";
-      t.style.color = active ? accent : "#6b7280";
+      gsap.to(el, { color: active ? accent : "#6b7280", duration: 0.25, ease: "power2.out" });
+      el.style.backgroundColor = active ? `${accent}1a` : "";
+      el.style.borderColor = active ? `${accent}40` : "transparent";
     });
 
-    panels.forEach((p, i) => {
-      p.style.display = i === index ? "block" : "none";
-    });
+    const slideHeight = rightPanel?.clientHeight ?? 600;
+
+    // Fix wrapper height and clip during animation
+    if (wrapper) {
+      wrapper.style.height = slideHeight + "px";
+      wrapper.style.overflow = "hidden";
+    }
+
+    // Position both panels absolutely for the slide
+    gsap.set(outPanel, { position: "absolute", top: 0, left: 0, right: 0 });
+    gsap.set(newPanel, { display: "block", position: "absolute", top: 0, left: 0, right: 0, y: direction * slideHeight });
+
+    gsap.timeline({
+      onComplete: () => {
+        outPanel.style.display = "none";
+        gsap.set([outPanel, newPanel], { clearProps: "position,top,left,right,y" });
+        if (wrapper) {
+          wrapper.style.height = "";
+          wrapper.style.overflow = "";
+        }
+        if (rightPanel) {
+          rightPanel.scrollTop = scrollToBottom ? rightPanel.scrollHeight : 0;
+        }
+      },
+    })
+      .to(outPanel, { y: direction * -slideHeight, duration: 0.38, ease: "power2.inOut" }, 0)
+      .to(newPanel, { y: 0, duration: 0.38, ease: "power2.inOut" }, 0);
   }
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      goToTab(parseInt(tab.dataset.index));
+      if (isTransitioning) return;
+      goToTab(parseInt((tab as HTMLElement).dataset.index ?? "0"));
     });
   });
 
-  const container = document.getElementById("work-panels-container");
-  container.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    if (e.deltaY > 0) {
-      goToTab(currentTab + 1);
-    } else {
-      goToTab(currentTab - 1);
-    }
-  }, { passive: false });
+  const OVERSCROLL_THRESHOLD = 200;
+  let overscrollAccum = 0;
+
+  const section = document.getElementById("my-work");
+  if (section && rightPanel) {
+    section.addEventListener("wheel", (e) => {
+      const we = e as WheelEvent;
+      we.preventDefault();
+
+      if (isTransitioning) return;
+
+      let delta = we.deltaY;
+      if (we.deltaMode === 1) delta *= 16;
+      if (we.deltaMode === 2) delta *= rightPanel.clientHeight;
+
+      const atTop = rightPanel.scrollTop <= 0;
+      const atBottom = rightPanel.scrollTop + rightPanel.clientHeight >= rightPanel.scrollHeight - 1;
+      const scrollingDown = delta > 0;
+      const scrollingUp = delta < 0;
+
+      if (scrollingDown && atBottom) {
+        overscrollAccum += delta;
+        if (overscrollAccum >= OVERSCROLL_THRESHOLD) {
+          overscrollAccum = 0;
+          isTransitioning = true;
+          if (currentTab < totalTabs - 1) {
+            goToTab(currentTab + 1, false);
+          } else {
+            // @ts-ignore
+            fullpage_api.moveSectionDown();
+          }
+          setTimeout(() => { isTransitioning = false; }, 800);
+        }
+      } else if (scrollingUp && atTop) {
+        overscrollAccum += delta;
+        if (overscrollAccum <= -OVERSCROLL_THRESHOLD) {
+          overscrollAccum = 0;
+          isTransitioning = true;
+          if (currentTab > 0) {
+            goToTab(currentTab - 1, true);
+          } else {
+            // @ts-ignore
+            fullpage_api.moveSectionUp();
+          }
+          setTimeout(() => { isTransitioning = false; }, 800);
+        }
+      } else {
+        overscrollAccum = 0;
+        rightPanel.scrollTop += delta;
+      }
+    }, { passive: false });
+  }
 
   // Modal
   const modal = document.getElementById("work-modal");
