@@ -269,7 +269,12 @@ const accent = siteConfig.accentColor;
   if (section && rightPanel) {
     section.addEventListener("wheel", (e) => {
       const we = e as WheelEvent;
-      if (!section.classList.contains("active")) return;
+      if (!section.classList.contains("active")) {
+        we.preventDefault();
+        if (we.deltaY < 0) (window as any).fullpage_api?.moveSectionUp();
+        else (window as any).fullpage_api?.moveSectionDown();
+        return;
+      }
       we.preventDefault();
 
       if (isTransitioning) return;
