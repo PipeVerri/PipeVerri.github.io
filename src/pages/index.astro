@@ -29,6 +29,13 @@ import "../styles/global.css";
       new fullpage('#fullpage', {
         autoScrolling: true,
         scrollOverflow: true,
+        normalScrollElements: '#my-work',
+        afterLoad: function(_origin: any, destination: any) {
+          if (destination.item && destination.item.id === 'my-work') {
+            const rightPanel = document.getElementById('work-right-panel');
+            if (rightPanel) rightPanel.scrollTop = 0;
+          }
+        },
       });
     </script>
     <title>{siteConfig.name} - {siteConfig.title}</title>
