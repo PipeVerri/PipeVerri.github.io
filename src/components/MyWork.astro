@@ -5,8 +5,8 @@ const accent = siteConfig.accentColor;
 ---
 
 {hasWorkTopics && (
-  <div id="my-work" class="slide flex items-start px-8 sm:px-12 md:px-16 lg:px-24 py-16 bg-white section overflow-visible h-screen" style="height: auto; min-height: 100vh; overflow: visible;">
-    <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start h-full">
+  <div id="my-work" class="slide flex items-start bg-white section fp-noscroll overflow-visible h-screen" style="height: auto; min-height: 100vh; overflow: visible;">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start h-full px-8 sm:px-12 md:px-16 lg:px-24 py-16">
 
       {/* Left: heading + tabs */}
       <div class="lg:col-span-4 sticky top-0 h-screen flex flex-col">
@@ -269,6 +269,7 @@ const accent = siteConfig.accentColor;
   if (section && rightPanel) {
     section.addEventListener("wheel", (e) => {
       const we = e as WheelEvent;
+      if (!section.classList.contains("active")) return;
       we.preventDefault();
 
       if (isTransitioning) return;

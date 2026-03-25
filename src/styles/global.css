@@ -10,3 +10,7 @@ body {
   overflow: hidden;
   position: relative;
 }
+
+#my-work .fp-overflow {
+  overflow: visible !important;
+}
