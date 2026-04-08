@@ -197,7 +197,6 @@ After running UX interviews at my gym, I realized I was targeting a market that 
               name: "Competed in Argentina's National Informatics Olympiad",
               description: "Trained on codeforces an leetcode, placed 2nd in the country at the jurisdictional stage.",
               detailedDescription: "Placed 2nd in the country at the olympiad's jurisdictional stage. At nationals, got tired from over-preparation and placed 7th.\nAlso reached a peak Codeforces rating of 1300 in about a month of active training before shifting focus to entrepreneurship.",
-              link: "asdasdasdasd", // TODO
               skills: ["C++", "Competitive Programming"],
               year: "2024"
             },
